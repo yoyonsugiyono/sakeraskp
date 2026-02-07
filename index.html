@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAKERA SKP</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        /* Style tambahan untuk validasi input */
+        input:invalid:not(:placeholder-shown) {
+            border-color: #ef4444; /* Merah jika invalid */
+        }
+        input:valid:not(:placeholder-shown) {
+            border-color: #22c55e; /* Hijau jika valid */
+        }
+        /* Animasi untuk accordion */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        details[open] summary ~ * {
+            animation: sweep .3s ease-in-out;
+        }
+        @keyframes sweep {
+            0%    {opacity: 0; transform: translateY(-10px)}
+            100%  {opacity: 1; transform: translateY(0)}
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 flex items-center justify-center p-4 text-slate-900">
+
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        
+        <!-- Header Section -->
+        <div class="bg-green-700 p-8 text-white text-center">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
+                <!-- Icon Google Sheets -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18V3H3zm16 16H5V5h14v14z"/><path d="M14 10h-4v2h4v-2zm-4 4h4v-2h-4v2z"/></svg>
+            </div>
+            <h1 class="text-3xl font-bold tracking-tight mb-1">SAKERA SKP</h1>
+            <p class="text-green-100 text-sm font-medium mb-4 opacity-90">
+                (Sistem Aduan & Keluhan Elektronik Respon Akurat)
+            </p>
+            <div class="inline-block px-3 py-1 bg-green-800/50 rounded-full border border-green-600">
+                <p class="text-green-50 text-xs">
+                    Tahun Pelaporan: <span id="display-current-year" class="font-bold text-white">...</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <form id="skpForm" class="p-8 space-y-4">
+
+            <!-- INFO PENTING (Updated dengan Gambar Visualisasi) -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg mb-2">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-0.5">
+                        <!-- Icon Warning -->
+                        <svg class="h-5 w-5 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3 w-full">
+                        <h3 class="text-sm font-bold text-amber-800">Cek Hal Ini Sebelum Mengisi:</h3>
+                        
+                        <!-- Poin 1: Kirim SIASN -->
+                        <div class="mt-2">
+                            <p class="text-sm text-amber-900 font-medium">1. Wajib klik "Kirim ke SIASN" di e-Kinerja.</p>
+                            <details class="group mt-1">
+                                <summary class="flex items-center gap-1 text-xs font-semibold text-amber-600 cursor-pointer hover:text-amber-800 select-none">
+                                    <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    Lihat Contoh Tombol
+                                </summary>
+                                <div class="mt-2 p-2 bg-white rounded border border-amber-200 shadow-sm">
+                                    <!-- GANTI src DI BAWAH INI DENGAN LINK GAMBAR 1 (TOMBOL BIRU) ANDA -->
+                                    <img src="https://ibb.co.com/1t49h3cB" 
+                                         alt="Panduan Tombol Kirim ke SIASN" 
+                                         class="w-full rounded h-auto object-cover">
+                                    <p class="text-[10px] text-slate-500 mt-1 italic text-center">Pastikan tombol biru "Kirim ke SIASN" sudah diklik.</p>
+                                </div>
+                            </details>
+                        </div>
+
+                        <!-- Poin 2: Cek SIMPEG/SKP -->
+                        <div class="mt-3">
+                            <p class="text-sm text-amber-900 font-medium">2. Pastikan Data SKP Tahun sebelumnya belum masuk (Misal: Tahun 2025)</p>
+                            <details class="group mt-1">
+                                <summary class="flex items-center gap-1 text-xs font-semibold text-amber-600 cursor-pointer hover:text-amber-800 select-none">
+                                    <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    Lihat Contoh Tampilan
+                                </summary>
+                                <div class="mt-2 p-2 bg-white rounded border border-amber-200 shadow-sm">
+                                    <!-- GANTI src DI BAWAH INI DENGAN LINK GAMBAR 2 (TABEL SKP) ANDA -->
+                                    <img src="https://via.placeholder.com/500x120/fff7ed/c2410c?text=Contoh+Tampilan+Tabel+SKP" 
+                                         alt="Panduan Tabel SKP" 
+                                         class="w-full rounded h-auto object-cover">
+                                    <p class="text-[10px] text-slate-500 mt-1 italic text-center">Cek kolom tahun dan predikat kinerja pada tabel.</p>
+                                </div>
+                            </details>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alert Sukses (Hidden by default) -->
+            <div id="alertSuccess" class="hidden bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm flex items-start gap-2">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div>
+                    <strong>Berhasil!</strong> Data tersimpan di Spreadsheet dan notifikasi WA sedang dikirim ke Admin.
+                </div>
+            </div>
+
+            <!-- Input Nama Lengkap -->
+            <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Nama Lengkap</label>
+                <!-- Pattern: Hanya huruf a-z (besar/kecil) dan spasi -->
+                <input required 
+                       type="text" 
+                       id="nama" 
+                       name="nama" 
+                       pattern="[a-zA-Z\s]+"
+                       title="Hanya boleh huruf dan spasi (tidak boleh angka/simbol)"
+                       class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-green-500 outline-none transition-all"
+                       placeholder="Contoh: Yoyon Sugiyono">
+                <p class="text-xs text-slate-400">Hanya huruf dan spasi.</p>
+            </div>
+
+            <!-- Input Unit Kerja -->
+            <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Unit Kerja</label>
+                <input required 
+                       type="text" 
+                       id="unit" 
+                       name="unit" 
+                       class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-green-500 outline-none transition-all"
+                       placeholder="Contoh: UPTD SDN Margantoko 2">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Input NIP -->
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-slate-700">NIP</label>
+                    <!-- Pattern: Angka saja, tepat 20 digit -->
+                    <input required 
+                           type="text" 
+                           id="nip" 
+                           name="nip" 
+                           inputmode="numeric" 
+                           pattern="\d{20}" 
+                           minlength="20" 
+                           maxlength="20"
+                           title="NIP harus berisi 20 digit angka tanpa spasi"
+                           class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-green-500 outline-none transition-all"
+                           placeholder="19xxxxxxxxxxxxxxxxxx">
+                    <p class="text-xs text-slate-400">Wajib 20 Digit Angka.</p>
+                </div>
+
+                <!-- Input No HP -->
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-slate-700">No. HP (WhatsApp)</label>
+                    <!-- Pattern: Harus diawali 62, diikuti angka -->
+                    <input required 
+                           type="tel" 
+                           id="hp" 
+                           name="hp" 
+                           inputmode="tel" 
+                           pattern="^62\d+$"
+                           title="Harus diawali 62 (Contoh: 62812345678)"
+                           class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-green-500 outline-none transition-all"
+                           placeholder="628xxxxxxxxxx">
+                    <p class="text-xs text-slate-400">Awali dengan 62 (Bukan 0).</p>
+                </div>
+            </div>
+
+            <!-- Keperluan (Otomatis) -->
+            <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Keperluan</label>
+                <div class="w-full px-4 py-3 bg-green-50 rounded-lg border border-green-100 text-green-800 text-sm font-medium">
+                    Belum muncul SKP Tahun <span id="display-skp-year" class="font-bold underline">...</span>
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <button type="submit" id="btnSubmit" class="w-full py-4 rounded-xl text-white font-bold flex items-center justify-center gap-2 transition-all shadow-md bg-green-700 hover:bg-green-800 active:scale-[0.98]">
+                    <span id="btnText">Kirim Pengaduan (Otomatis)</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- Info Pengembang Section -->
+        <div class="bg-slate-50 p-6 text-center border-t border-slate-200 text-xs text-slate-500 leading-relaxed">
+            <p class="mb-1">Info Pengembang:</p>
+            <p class="font-bold text-slate-700 text-sm">Yoyon Sugiyono, S.Pd., M.Pd., Gr.</p>
+            <p class="mt-1">(Guru Pejuang Digital Komunitas Belajar.id Kab. Sampang - Guru Kelas di UPTD SDN Margantoko 2)</p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- KONFIGURASI PENTING ---
+        // URL Web App Apps Script (Updated)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzlj5j7COi0eKkrtBBOOvm7fZadXsXzPJ_YczIZfC3J8aYzeGt7FkNppuUPWAuDHRm/exec";
+
+        // 1. Inisialisasi Tanggal
+        const currentYear = new Date().getFullYear();
+        const skpYear = currentYear - 1;
+
+        document.getElementById('display-current-year').textContent = currentYear;
+        document.getElementById('display-skp-year').textContent = skpYear;
+
+        // 2. Handle Submit
+        const form = document.getElementById('skpForm');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const btnText = document.getElementById('btnText');
+        const alertSuccess = document.getElementById('alertSuccess');
+
+        // Helper: Cegah input selain angka untuk NIP dan HP saat mengetik
+        document.getElementById('nip').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+        document.getElementById('hp').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // --- VALIDASI MANUAL SEBELUM KIRIM ---
+            // (Penting karena Apps Script akan me-reject diam-diam jika format salah di mode no-cors)
+            
+            const namaVal = document.getElementById('nama').value;
+            const nipVal = document.getElementById('nip').value;
+            const hpVal = document.getElementById('hp').value;
+
+            // 1. Cek Nama (Regex: Huruf & Spasi)
+            if (!/^[a-zA-Z\s]+$/.test(namaVal)) {
+                alert("Validasi Gagal:\nNama hanya boleh berisi huruf dan spasi.\n(Jangan gunakan angka atau simbol).");
+                return;
+            }
+
+            // 2. Cek NIP (Harus 20 digit)
+            if (nipVal.length !== 20) {
+                alert("Validasi Gagal:\nNIP harus tepat 20 digit angka.");
+                return;
+            }
+
+            // 3. Cek HP (Harus diawali 62)
+            if (!hpVal.startsWith("62")) {
+                alert("Validasi Gagal:\nNomor HP harus diawali dengan angka 62.\nContoh: 628123456789 (Bukan 08...)");
+                return;
+            }
+
+            // Validasi URL Script
+            if (!SCRIPT_URL || SCRIPT_URL.includes("URL_WEB_APP")) {
+                alert("URL Web App belum diatur dengan benar di kode HTML.");
+                return;
+            }
+
+            // --- PROSES KIRIM ---
+
+            btnText.textContent = "Sedang Mengirim...";
+            btnSubmit.classList.add('opacity-75', 'cursor-not-allowed');
+            btnSubmit.disabled = true;
+
+            // Siapkan Data
+            const dataForm = {
+                nama: namaVal,
+                unit: document.getElementById('unit').value,
+                nip: nipVal,
+                hp: hpVal,
+                tahunSkp: skpYear,
+                keperluan: `Belum muncul SKP Tahun ${skpYear} (Tahun Berjalan) dengan NIP ${nipVal}`
+            };
+
+            // Kirim ke Apps Script via POST
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify(dataForm),
+                mode: "no-cors" // Respon server tidak bisa dibaca (blind request)
+            })
+            .then(() => {
+                // Asumsi berhasil karena validasi frontend sudah lolos
+                alertSuccess.classList.remove('hidden');
+                form.reset();
+                btnText.textContent = "Terkirim!";
+                
+                // Kembalikan tombol setelah 3 detik
+                setTimeout(() => {
+                    btnText.textContent = "Kirim Pengaduan (Otomatis)";
+                    btnSubmit.classList.remove('opacity-75', 'cursor-not-allowed');
+                    btnSubmit.disabled = false;
+                    alertSuccess.classList.add('hidden');
+                }, 4000);
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert("Terjadi kesalahan koneksi. Coba lagi.");
+                btnText.textContent = "Kirim Ulang";
+                btnSubmit.classList.remove('opacity-75', 'cursor-not-allowed');
+                btnSubmit.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
